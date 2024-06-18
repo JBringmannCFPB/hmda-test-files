@@ -23,7 +23,7 @@ class lar_gen(object):
 	- make_ts_row
 	- make_row
 	"""
-	def __init__(self, lar_schema_file="2023/schemas/lar_schema.json", ts_schema_file="2023/schemas/ts_schema.json",for_frontend = False):
+	def __init__(self, lar_schema_file="2022/schemas/lar_schema.json", ts_schema_file="2022/schemas/ts_schema.json",for_frontend = False):
 	#, config_file='configurations/clean_file_config.yaml', geo_config_file='configurations/geographic_data.yaml'):
 		"""
 		lar_schema_file: JSON file with LAR schema
