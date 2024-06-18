@@ -14,7 +14,7 @@ import utils
 
 
 config_file = '2024/python/configurations/clean_file_config.yaml'
-bank_config = '2024/python/configurations/bank1_config.yaml'
+bank_config = '2024/python/configurations/bank0_config.yaml'
 
 if len(sys.argv) == 2:
 	bank_config = sys.argv[1]

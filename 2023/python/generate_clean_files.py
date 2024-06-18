@@ -8,13 +8,14 @@ import yaml
 
 from lar_constraints import lar_data_constraints
 import lar_generator
+# import lar_generator_copy
 from rules_engine import rules_engine
 import utils
 
 
 
 config_file = '2023/python/configurations/clean_file_config.yaml'
-bank_config = '2023/python/configurations/bank2_config.yaml'
+bank_config = '2023/python/configurations/bank1_config.yaml'
 
 if len(sys.argv) == 2:
 	bank_config = sys.argv[1]
@@ -24,7 +25,8 @@ filepaths_file = '2023/python/configurations/test_filepaths.yaml'
 lar_schema_file="2023/schemas/lar_schema.json"
 ts_schema_file="2023/schemas/ts_schema.json"
 
-LOGGING = False
+DEBUG = False
+LOGGING = True
 #load config data
 print("start initialization of LAR generator")
 with open(config_file, 'r') as f:
@@ -41,7 +43,7 @@ with open(geo_config_file, 'r') as f:
 with open(bank_config, 'r') as f:
 	bank_config_data = yaml.safe_load(f)
 
-DEBUG = False
+
 if not os.path.exists(filepaths["log_filepath"]):
 	os.makedirs(filepaths["log_filepath"])
 
@@ -93,7 +95,7 @@ for i in range(bank_config_data["file_length"]["value"]):
 	if DEBUG:
 		print(edit_report_df)
 
-	#apply constraints to force conformity with FIG schema for LAR data
+	# apply constraints to force conformity with FIG schema for LAR data
 	constraints_iter = 0
 	while len(edit_report_df[edit_report_df.fail_count>0]):
 		if LOGGING:
@@ -117,7 +119,10 @@ for i in range(bank_config_data["file_length"]["value"]):
 			print(edit_report_df[edit_report_df.fail_count>0])
 	lar_rows.append(lar_row)
 
+
 lar_rows_df = pd.DataFrame(lar_rows)
+
+
 
 if DEBUG:
 	rules_engine.load_lar_data(lar_rows_df)

@@ -19,7 +19,7 @@ import utils
 
 #load configurations
 config_file = '2023/python/configurations/clean_file_config.yaml'
-bank_config = '2023/python/configurations/bank1_config.yaml'
+bank_config = '2023/python/configurations/bank0_config.yaml'
 geo_config_file='2023/python/configurations/geographic_data.yaml'
 filepaths_file = '2023/python/configurations/test_filepaths.yaml'
 lar_schema_file="2023/schemas/lar_schema.json"

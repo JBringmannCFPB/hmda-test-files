@@ -1,7 +1,19 @@
+  file_length:
+    desc: The number of lines in the clean or test data file
+    type: Integer
+    value: 100
   name:
     desc: The name of the institution filing data
     type: String
-    value: Bank0
+    value: HMDA Test Institution
+  lei:
+    desc: The Legal Entity Identifier of the institution
+    type: String
+    value: FRONTENDTESTBANK9999
+  tax_id:
+    desc: The federal tax ID of the filing institution
+    type: String
+    value: 53-1111111
   activity_year:
     desc: The year of activity
     type: Integer
@@ -42,17 +54,6 @@
     desc: The agency code of the filing institution
     type: Integer
     value: 9
-  file_length:
-    desc: The number of lines in the clean or test data file
-    type: Integer
-    value: 100
-  lei:
-    desc: The Legal Entity Identifier of the institution
-    type: String
-    value: B90YWS6AFX2LGWOXJ1LD
-  tax_id:
-    desc: The federal tax ID of the filing institution
-    type: String
-    value: 01-0123456
+
 
 

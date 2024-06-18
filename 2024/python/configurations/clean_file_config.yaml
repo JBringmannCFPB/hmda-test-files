@@ -17,7 +17,7 @@
     calendar_quarter:
       desc: The calendar quarter to which the filing relates
       type: Integer
-      value: 4
+      value: 1
     street_addy:
       desc: Property street address
       type: String
