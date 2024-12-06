@@ -8,7 +8,7 @@ import yaml
 
 from lar_constraints import lar_data_constraints
 # import lar_generator
-import lar_generator_copy
+import lar_generator_frontend
 from rules_engine import rules_engine
 import utils
 
@@ -16,7 +16,8 @@ for_frontend = True
 
 config_file = '2024/python/configurations/clean_file_config.yaml'
 bank_config = '2024/python/configurations/bank0_config.yaml'
-
+# bank_config = '2024/python/configurations/frontEnd_config.yaml'
+# 
 if len(sys.argv) == 2:
 	bank_config = sys.argv[1]
 
@@ -30,8 +31,17 @@ DEBUG = True
 LOGGING = True
 #load config data
 print("start initialization of LAR generator")
+
+with open(bank_config, 'r') as f:
+	bank_config_data = yaml.safe_load(f)
+ 
 with open(config_file, 'r') as f:
 	lar_file_config_data = yaml.safe_load(f)
+ 
+#set lar_file_config lei to match bank config data
+lar_file_config_data["lei"]["value"] = bank_config_data["lei"]["value"]
+lar_file_config_data["calendar_quarter"]["value"] = bank_config_data["calendar_quarter"]["value"]
+lar_file_config_data["activity_year"]["value"] = bank_config_data["activity_year"]["value"] 
 
 with open(filepaths_file, 'r') as f:
 	filepaths = yaml.safe_load(f)
@@ -41,12 +51,10 @@ print("loading geo data")
 with open(geo_config_file, 'r') as f:
 	geo_config = yaml.safe_load(f)
 
-with open(bank_config, 'r') as f:
-	bank_config_data = yaml.safe_load(f)
-
 
 if not os.path.exists(filepaths["log_filepath"]):
 	os.makedirs(filepaths["log_filepath"])
+
 
 #if LOGGING:
 logging.basicConfig(filename=filepaths["log_filepath"]+filepaths['log_filename'], format='%(asctime)s %(message)s', 
@@ -64,11 +72,9 @@ with open(geo_config["zip_code_file"], 'r') as f:
 zip_codes.append("Exempt")
 
 #instantiate lar generator to create random LAR and fixed TS data
-lar_gen = lar_generator_copy.lar_gen(lar_schema_file=lar_schema_file, ts_schema_file=ts_schema_file)
+lar_gen = lar_generator_frontend.lar_gen(lar_schema_file=lar_schema_file, ts_schema_file=ts_schema_file)
 
-#set lar_file_config lei to match bank config data
-lar_file_config_data["lei"]["value"] = bank_config_data["lei"]["value"]
-lar_file_config_data["calendar_quarter"]["value"] = bank_config_data["calendar_quarter"]["value"]
+
 #instantiate rules engine to check conformity of synthetic data to FIG schema
 rules_engine = rules_engine(config_data=lar_file_config_data, state_codes=geo_config["state_codes"], state_codes_rev=geo_config["state_codes_rev"],
 	geographic_data=geographic_data, full_lar_file_check=False)
@@ -84,6 +90,7 @@ rules_engine.load_ts_data(ts_df) #loading ts_row to rules_engine converts it to 
 lar_rows = [] #list to hold all OrderedDict LAR records before writing to file
 
 for i in range(bank_config_data["file_length"]["value"]):
+	print("*"*25)
 	print("generating row {count}".format(count=i))
 	#create initial LAR row
 	lar_row = lar_gen.make_row(lar_file_config=lar_file_config_data, geographic_data=geographic_data, 
@@ -97,6 +104,7 @@ for i in range(bank_config_data["file_length"]["value"]):
 		logging.info("generating row {count}".format(count=i))
 	if DEBUG:
 		print(edit_report_df)
+		print("Fails: ",edit_report_df['fail_count'].sum())
 
 	## apply constraints to force conformity with FIG schema for LAR data
 	constraints_iter = 0
@@ -124,6 +132,7 @@ for i in range(bank_config_data["file_length"]["value"]):
 
 
 lar_rows_df = pd.DataFrame(lar_rows)
+
 
 
 if DEBUG:

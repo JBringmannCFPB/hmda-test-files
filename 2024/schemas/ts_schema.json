@@ -17,7 +17,7 @@
     "field": "calendar_quarter",
     "dtypes_": ["int"],
     "data_type": "numeric",
-    "valid_vals": [4]
+    "valid_vals": [1,2,3,4]
 }, {
     "field": "contact_name",
     "dtypes_": ["string"],

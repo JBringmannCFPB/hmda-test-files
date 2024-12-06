@@ -21,7 +21,7 @@ class rules_engine(object):
 	"""
 
 	def __init__(self, config_data, state_codes, state_codes_rev, geographic_data, full_lar_file_check=False,
-		lar_schema_file="2023/schemas/lar_schema.json", ts_schema_file="2023/schemas/ts_schema.json"):
+		lar_schema_file="2024/schemas/lar_schema.json", ts_schema_file="2024/schemas/ts_schema.json"):
 
 		print("initializing rules engine")
 
@@ -401,7 +401,8 @@ class rules_engine(object):
 		edit_name = "v602"
 		fail_df = self.ts_df.copy()
 		fail_df.calendar_quarter = fail_df.calendar_quarter.apply(lambda x: int(x))
-		fail_df = fail_df[(fail_df.calendar_quarter!=4)]
+		fail_df = fail_df[(fail_df.calendar_quarter<1) & (fail_df.calendar_quarter>4)]
+  
 		self.results_wrapper(edit_name=edit_name, field_name=field, fail_df=fail_df, row_type="TS")
 
 	def v603(self):

@@ -5,15 +5,15 @@
   name:
     desc: The name of the institution filing data
     type: String
-    value: HMDA Test Institution
+    value: Bank0
   lei:
     desc: The Legal Entity Identifier of the institution
     type: String
-    value: FRONTENDTESTBANK9999
+    value: B90YWS6AFX2LGWOXJ1LD
   tax_id:
     desc: The federal tax ID of the filing institution
     type: String
-    value: 53-1111111
+    value: 01-0123456
   activity_year:
     desc: The year of activity
     type: Integer
